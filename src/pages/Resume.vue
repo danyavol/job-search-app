@@ -45,7 +45,10 @@
                 ></textarea>
             </div>
         </div>
+        <!-- Контакты -->
+        <ContactsList />
 
+        <!-- Отправить форму -->
         <div class="field is-grouped">
             <div class="control">
                 <button class="button is-link">Создать резюме</button>
@@ -54,5 +57,20 @@
                 <button class="button is-link is-light">Отмена</button>
             </div>
         </div>
+        
+        <!-- Навыки и уровент знания -->
+        <!-- Языки -->
+        <!-- Опыт работы -->
+        <!-- Образование -->
     </div>
 </template>
+
+<script>
+import ContactsList from '@/components/ContactsList'
+
+export default {
+    components: {
+        ContactsList
+    }
+}
+</script>
