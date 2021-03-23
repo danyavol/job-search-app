@@ -51,7 +51,7 @@
         <!-- Отправить форму -->
         <div class="field is-grouped">
             <div class="control">
-                <button class="button is-link">Создать резюме</button>
+                <button class="button is-link" @click="downloadResume">Создать резюме</button>
             </div>
             <div class="control">
                 <button class="button is-link is-light">Отмена</button>
@@ -67,10 +67,25 @@
 
 <script>
 import ContactsList from '@/components/ContactsList'
+import axios from 'axios'
 
 export default {
     components: {
         ContactsList
+    },
+    methods: {
+        downloadResume() {
+            axios.post('http://localhost:5000/create-pdf', {}, {responseType: 'blob'})
+                .then(result => {
+                    const url = window.URL.createObjectURL(new Blob([result.data]));
+                    const link = document.createElement('a');
+                    link.href = url;
+                    link.setAttribute('download', 'file.pdf');
+                    document.body.appendChild(link);
+                    link.click();
+                })
+                .catch(err => console.log(err));
+        }
     }
 }
 </script>
