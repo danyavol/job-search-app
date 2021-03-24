@@ -15,9 +15,13 @@ app.use(bodyParser.json());
 const template = require('./src/resumeTemplate');
 
 app.post('/create-pdf', (req, res) => {
+    let config = {
+        format: 'A4',
+        orientation: 'portrait'
+    }
     let start = Date.now();
 
-    pdf.create(template(), {}).toStream((err, stream) => {
+    pdf.create(template(), config).toStream((err, stream) => {
         let end = Date.now() - start;
         console.log('created pdf in ' + end/1000 + 's');
 
