@@ -36,4 +36,7 @@ export default {
     .logo {
         cursor: pointer;
     }
+    nav {
+        overflow: visible !important;
+    }
 </style>

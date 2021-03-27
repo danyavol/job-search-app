@@ -26,5 +26,6 @@ export default {
 }
 main {
     flex-grow: 1;
+    margin-bottom: 1.5rem;
 }
 </style>

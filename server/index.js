@@ -17,7 +17,8 @@ const template = require('./src/resumeTemplate');
 app.post('/create-pdf', (req, res) => {
     let config = {
         format: 'A4',
-        orientation: 'portrait'
+        orientation: 'portrait',
+        zoomFactor: 0.5
     }
     let start = Date.now();
 
