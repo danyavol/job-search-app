@@ -44,6 +44,7 @@ export default {
             contactsCounter: 0
         }
     },
+    emits: ['contactsUpdate'],
     methods: {
         addContact() {
             this.contacts.push({
@@ -54,6 +55,8 @@ export default {
 
             this.currentValue = '';
             this.currentTitle = '';
+
+            this.$emit('contactsUpdate', this.contacts);
         },
         checkIsValid() {
             if (this.currentValue && this.currentTitle) this.isValid = true
@@ -62,6 +65,7 @@ export default {
         removeContact(id) {
             let index = this.contacts.findIndex(c => c.id === id);
             this.contacts.splice(index, 1);
+            this.$emit('contactsUpdate', this.contacts);
         }
     },
     watch: {

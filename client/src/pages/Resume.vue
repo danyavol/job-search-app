@@ -9,6 +9,7 @@
                         class="input"
                         type="text"
                         placeholder="Введите имя"
+                        v-model="resumeData.firstName"
                     />
                 </div>
             </div>
@@ -20,6 +21,7 @@
                         class="input"
                         type="text"
                         placeholder="Введите фамилию"
+                        v-model="resumeData.lastName"
                     />
                 </div>
             </div>
@@ -32,6 +34,7 @@
                     class="input"
                     type="text"
                     placeholder="Введите желаемую должность"
+                    v-model="resumeData.profession"
                 />
             </div>
         </div>
@@ -42,11 +45,12 @@
                 <textarea
                     class="textarea"
                     placeholder="Кратко опишите себя, свои сильные и слабы стороны, пожелания о работе"
+                    v-model="resumeData.aboutMe"
                 ></textarea>
             </div>
         </div>
         <!-- Контакты -->
-        <ContactsList />
+        <ContactsList @contactsUpdate="onContactsUpdate" />
 
         <!-- Отправить форму -->
         <div class="field is-grouped">
@@ -73,9 +77,20 @@ export default {
     components: {
         ContactsList
     },
+    data() {
+        return {
+            resumeData: {
+                firstName: '',
+                lastName: '',
+                profession: '',
+                aboutMe: '',
+                contacts: []
+            }
+        }
+    },
     methods: {
         downloadResume() {
-            axios.post('http://localhost:5000/create-pdf', {}, {responseType: 'blob'})
+            axios.post('http://localhost:5000/create-pdf', this.resumeData, {responseType: 'blob'})
                 .then(result => {
                     const url = window.URL.createObjectURL(new Blob([result.data]));
                     const link = document.createElement('a');
@@ -85,6 +100,9 @@ export default {
                     link.click();
                 })
                 .catch(err => console.log(err));
+        },
+        onContactsUpdate(contacts) {
+            this.resumeData.contacts = contacts;
         }
     }
 }
