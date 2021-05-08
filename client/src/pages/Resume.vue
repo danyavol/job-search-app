@@ -49,20 +49,20 @@
                 ></textarea>
             </div>
         </div>
+
+        <!-- Навыки -->
+        <SkillsList @skillsUpdate="onSkillsUpdate" />
+
         <!-- Контакты -->
         <ContactsList @contactsUpdate="onContactsUpdate" />
 
         <!-- Отправить форму -->
         <div class="field is-grouped">
             <div class="control">
-                <button class="button is-link" @click="downloadResume">Создать резюме</button>
-            </div>
-            <div class="control">
-                <button class="button is-link is-light">Отмена</button>
+                <button class="button is-link" @click="downloadResume" :disabled="loading">Создать резюме</button>
             </div>
         </div>
         
-        <!-- Навыки и уровент знания -->
         <!-- Языки -->
         <!-- Опыт работы -->
         <!-- Образование -->
@@ -71,25 +71,30 @@
 
 <script>
 import ContactsList from '@/components/ContactsList'
+import SkillsList from '@/components/SkillsList'
 import axios from 'axios'
 
 export default {
     components: {
-        ContactsList
+        ContactsList,
+        SkillsList
     },
     data() {
         return {
             resumeData: {
-                firstName: '',
-                lastName: '',
-                profession: '',
-                aboutMe: '',
-                contacts: []
-            }
+                firstName: 'Иван',
+                lastName: 'Иванов',
+                profession: 'Frontend developer',
+                aboutMe: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam in nisi erat. Donec volutpat augue non est egestas, ut dapibus diam ultrices. Vivamus bibendum blandit orci, nec porta lacus rhoncus quis. Donec fermentum, enim tincidunt volutpat pharetra, nulla erat efficitur lacus, ac malesuada odio quam in velit. In quis fringilla sem, et porta nunc.',
+                contacts: [],
+                skills: []
+            },
+            loading: false
         }
     },
     methods: {
         downloadResume() {
+            this.loading = true;
             axios.post('http://localhost:5000/create-pdf', this.resumeData, {responseType: 'blob'})
                 .then(result => {
                     const url = window.URL.createObjectURL(new Blob([result.data]));
@@ -99,11 +104,15 @@ export default {
                     document.body.appendChild(link);
                     link.click();
                 })
-                .catch(err => console.log(err));
+                .catch(err => console.log(err))
+                .finally(() => this.loading = false);
         },
         onContactsUpdate(contacts) {
             this.resumeData.contacts = contacts;
+        },
+        onSkillsUpdate(skills) {
+            this.resumeData.skills = skills;
         }
-    }
+    } 
 }
 </script>

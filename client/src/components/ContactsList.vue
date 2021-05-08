@@ -3,10 +3,10 @@
 
     <div class="field has-addons">
         <div class="control is-expanded">
-            <input class="input" type="text" v-model="currentValue" placeholder="Контакт" />
+            <input class="input" type="text" v-model="currentValue" placeholder="Контакт (Прим. 'my@email.com')" />
         </div>
         <div class="control is-expanded">
-            <input class="input" type="text" v-model="currentTitle" placeholder="Название" />
+            <input class="input" type="text" v-model="currentTitle" placeholder="Название (Прим. 'Email')" />
         </div>
         <div class="control">
             <button class="button is-primary" @click="addContact" :disabled="!isValid">Добавить</button>
@@ -38,11 +38,18 @@ export default {
         return {
             IconBackspace: faBackspace,
             isValid: true,
-            currentValue: 'my@email.com',
-            currentTitle: 'Email',
-            contacts: [],
+            currentValue: '',
+            currentTitle: '',
+            contacts: [ 
+                {id: 1, value: 'github.com/danyavol', title: 'GitHub'},
+                {id: 2, value: 'daniil.volosyuk@gmail.com', title: 'Email'}
+            ],
             contactsCounter: 0
         }
+    },
+    created() {
+        this.checkIsValid();
+        this.$emit('contactsUpdate', this.contacts);
     },
     emits: ['contactsUpdate'],
     methods: {
@@ -59,8 +66,8 @@ export default {
             this.$emit('contactsUpdate', this.contacts);
         },
         checkIsValid() {
-            if (this.currentValue && this.currentTitle) this.isValid = true
-            else this.isValid = false
+            if (this.currentValue && this.currentTitle) this.isValid = true;
+            else this.isValid = false;
         },
         removeContact(id) {
             let index = this.contacts.findIndex(c => c.id === id);

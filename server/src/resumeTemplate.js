@@ -1,10 +1,38 @@
 module.exports = function resumeTemplate(data) {
-    let userContacts = '';
-    for (let contact of data.contacts) {
-        userContacts += 
-        `<div class="contact word-break">
-        <div class="contact-type">${contact.title}</div>${contact.value}
-        </div>`;
+
+    function getUserContacts() {
+        if (!data.contacts.length) return '';
+
+        let userContacts = '';
+        for (let contact of data.contacts) {
+            userContacts += 
+            `<div class="contact word-break">
+            <div class="contact-type">${contact.title}</div>${contact.value}
+            </div>`;
+        }
+        return `
+            <section>
+                <h3 class="section-title">Контакты</h3>
+                <div>
+                    ${userContacts}
+                </div>
+            </section>`;
+    }
+
+    function getUserSkills() {
+        if (!data.skills.length) return '';
+
+        let userSkills = '';
+        for (let skill of data.skills) {
+            userSkills += `<div class="contact">${skill.value}</div>`;
+        }
+        return `
+            <section>
+                <h3 class="section-title">Навыки</h3>
+                <div>
+                    ${userSkills}
+                </div>
+            </section>`;
     }
 
     return `
@@ -19,8 +47,7 @@ module.exports = function resumeTemplate(data) {
                 margin: 0;
                 padding: 0;
                 font-size: 14px;
-                zoom: 0.9;
-                font-family: 'sans-serif';
+                font-family: sans-serif;
             }
             .spec {
                 margin-top: 0;
@@ -79,21 +106,10 @@ module.exports = function resumeTemplate(data) {
     <body>
         <div class="container">
             <aside class="aside">
+                
+                ${getUserContacts()}
 
-                <section>
-                    <h3 class="section-title">Контакты</h3>
-                    <div>
-                    ${userContacts}
-                    </div>
-                </section>
-
-                <section>
-                    <h3 class="section-title">Навыки</h3>
-                    <div>
-                        <div>HTML5</div>
-                        <div>CSS</div>
-                    </div>
-                </section>
+                ${getUserSkills()}
                 
             </aside>
 
@@ -104,7 +120,7 @@ module.exports = function resumeTemplate(data) {
 
                 <section>
                     <h3 class="section-title">О себе</h3>
-                    <div class="text-justify">${data.aboutMe}</div>
+                    <div class="text-justify">${data.aboutMe || '-'}</div>
                 </section>
 
             </main>
