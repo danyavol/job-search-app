@@ -1,5 +1,28 @@
 <template>
-    <div class="container">
-        <h2 class="is-size-2">Home page</h2>
-    </div>
+    <section class="hero is-medium is-priamry">
+        <div class="hero-body">
+            <h2 class="title is-size-1 has-text-centered has-text-weight-light">
+                Простое и эффективное приложение для поиска работы
+            </h2>
+        </div>
+    </section>
+    <section class="hero is-medium is-link">
+        <div class="hero-body">
+            <p class="title">Создать резюме</p>
+            <p class="subtitle">Введите свои данные на первой вкладке, чтобы автоматически
+            сгенерировать резюме в формате PDF.</p>
+        </div>
+    </section>
+    <section class="hero is-medium is-info">
+        <div class="hero-body">
+            <p class="title">Найти вакансию</p>
+            <p class="subtitle">Подберите себе вакансию с помощью поиска на второй вкладке. Нужно всего лишь выбрать подходящую вакансию и отправить
+            работодателю ранее сгенерированное резюме.</p>
+        </div>
+    </section>
+    <section class="hero">
+        <div class="hero-body has-text-centered">
+            <router-link to="/resume"><button class="button is-primary is-outlined is-large">Создать резюме</button></router-link>
+        </div>
+    </section>
 </template>

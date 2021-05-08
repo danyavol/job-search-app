@@ -59,7 +59,7 @@
         <!-- Отправить форму -->
         <div class="field is-grouped">
             <div class="control">
-                <button class="button is-link" @click="downloadResume" :disabled="loading">Создать резюме</button>
+                <button class="button is-link" :class="{'is-loading': loading}" @click="downloadResume" :disabled="loading">Создать резюме</button>
             </div>
         </div>
         

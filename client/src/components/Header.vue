@@ -1,12 +1,12 @@
 <template>
     <nav class="tabs is-medium">
         <ul class="is-justify-content-center is-align-items-baseline">
-            <li :class="currentRoute == 'Job' ? 'is-active' : ''">
-                <router-link to="/job">Найти вакансию</router-link>
-            </li>
-            <li class="is-size-1 mx-6 has-text-info logo" @click="goHome">Job Search</li>
             <li :class="currentRoute == 'Resume' ? 'is-active' : ''">
                 <router-link to="/resume">Создать резюме</router-link>
+            </li>
+            <li class="is-size-1 mx-6 has-text-info logo" @click="goHome">Job Search</li>
+            <li :class="currentRoute == 'Job' ? 'is-active' : ''">
+                <router-link to="/job">Найти вакансию</router-link>
             </li>
         </ul>
     </nav>
