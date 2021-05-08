@@ -8,15 +8,15 @@
     </section>
     <section class="hero is-medium is-link">
         <div class="hero-body">
-            <p class="title">Создать резюме</p>
-            <p class="subtitle">Введите свои данные на первой вкладке, чтобы автоматически
+            <p class="title">Создай резюме</p>
+            <p class="subtitle">Заполни простую форму, чтобы автоматически
             сгенерировать резюме в формате PDF.</p>
         </div>
     </section>
     <section class="hero is-medium is-info">
         <div class="hero-body">
-            <p class="title">Найти вакансию</p>
-            <p class="subtitle">Подберите себе вакансию с помощью поиска на второй вкладке. Нужно всего лишь выбрать подходящую вакансию и отправить
+            <p class="title">Найди вакансию</p>
+            <p class="subtitle">Подберите себе вакансию с помощью поиска. Нужно всего лишь выбрать подходящую вакансию и отправить
             работодателю ранее сгенерированное резюме.</p>
         </div>
     </section>
