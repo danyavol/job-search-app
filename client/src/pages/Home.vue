@@ -20,9 +20,10 @@
             работодателю ранее сгенерированное резюме.</p>
         </div>
     </section>
-    <section class="hero">
-        <div class="hero-body has-text-centered">
-            <router-link to="/resume"><button class="button is-primary is-outlined is-large">Создать резюме</button></router-link>
-        </div>
+    
+    <section class="is-flex is-justify-content-space-around mt-6 mb-5">
+        <router-link to="/resume"><button class="button is-primary is-outlined is-large">Создать резюме</button></router-link>
+        <router-link to="/job"><button class="button is-info is-outlined is-large">Найти вакансию</button></router-link>
     </section>
+    
 </template>

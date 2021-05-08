@@ -20,7 +20,6 @@ app.post('/create-pdf', (req, res) => {
         zoomFactor: 0.5
     }
     let start = Date.now();
-    console.log(req);
 
     pdf.create(template(req.body), config).toStream((err, stream) => {
         let end = Date.now() - start;

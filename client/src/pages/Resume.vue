@@ -95,7 +95,7 @@ export default {
     methods: {
         downloadResume() {
             this.loading = true;
-            axios.post('http://localhost:5000/create-pdf', this.resumeData, {responseType: 'blob'})
+            axios.post(process.env.VUE_APP_SERVER_PATH + '/create-pdf', this.resumeData, {responseType: 'blob'})
                 .then(result => {
                     const url = window.URL.createObjectURL(new Blob([result.data]));
                     const link = document.createElement('a');

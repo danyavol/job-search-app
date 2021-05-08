@@ -19,7 +19,8 @@ job.get('/job/', async (req, res) => {
         return res.json(response);
     } else {
         const output = parseJobs(response.data);
-        return res.json( Object.assign(query, output) );
+        output.query = query;
+        return res.json( output );
     }
 });
 
