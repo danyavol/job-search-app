@@ -1,5 +1,5 @@
 <template>
-    <nav class="pagination is-rounded is-flex is-justify-content-center" role="navigation" aria-label="pagination">
+    <nav class="pagination is-rounded is-flex is-justify-content-center mb-0" role="navigation" aria-label="pagination">
         <!-- все страницы помещаются разом -->
         <div v-if="pageCount <= 7">
             <ul class="pagination-list" >

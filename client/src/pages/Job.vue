@@ -21,6 +21,9 @@
                         :key="job.url"
                         :job="job"
                     /> 
+                </div>
+                <div v-else class="h-100 is-flex is-justify-content-center is-align-items-center">
+                    <div class="loader is-loading"></div>    
                 </div>       
             </div>
             <Pagination
@@ -115,5 +118,9 @@ export default {
 <style>
 .h-100 {
     height: 100%;
+}
+.loader {
+    width: 80px;
+    height: 80px;
 }
 </style>
