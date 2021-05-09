@@ -56,6 +56,9 @@ function parseJobs(html) {
         vacancy.salary = $(elem).find('[data-qa="vacancy-serp__vacancy-compensation"]').text();
         vacancy.company = $(elem).find('[data-qa="vacancy-serp__vacancy-employer"]').text();
         vacancy.address = $(elem).find('[data-qa="vacancy-serp__vacancy-address"]').text();
+        vacancy.employer = $(elem).find('[data-qa="vacancy-serp__vacancy-employer"]').attr('href');
+        if (vacancy.employer) vacancy.employer = 'https://rabota.by' + vacancy.employer;
+        vacancy.employerLogo = $(elem).find('[data-qa="vacancy-serp__vacancy-employer-logo"] img').attr('src');
         vacancy.responsibility = $(elem).find('[data-qa="vacancy-serp__vacancy_snippet_responsibility"]').text();
         vacancy.requirement = $(elem).find('[data-qa="vacancy-serp__vacancy_snippet_requirement"]').text();
         vacancy.date = $(elem).find('[data-qa="vacancy-serp__vacancy-date"] .vacancy-serp-item__publication-date_long').text();

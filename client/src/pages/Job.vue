@@ -8,6 +8,7 @@
             class="is-flex-grow-1 is-flex is-flex-direction-column"
         >   
             <Pagination
+                class="mt-2"
                 :pageCount="data.totalPages"
                 :take="data.query.take"
                 :currentPage="data.query.page"
@@ -15,7 +16,7 @@
                 @pageChange="onPageChange"
             />
             <div class="jobs-list is-flex-grow-1">
-                <div v-if="!loading">
+                <div v-if="!loading" class="jobs-wrapper is-flex is-flex-direction-column my-5">
                     <JobItem
                         v-for="job in data.jobs"
                         :key="job.url"
@@ -119,8 +120,13 @@ export default {
 .h-100 {
     height: 100%;
 }
+
 .loader {
     width: 80px;
     height: 80px;
+}
+
+.jobs-wrapper {
+    gap: 10px;
 }
 </style>
