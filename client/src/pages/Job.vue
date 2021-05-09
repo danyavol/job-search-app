@@ -1,28 +1,51 @@
 <template>
-    <div class="container h-100" v-if="data">
+    <div class="container h-100 is-flex is-flex-direction-column">
+        <SearchPanel @searchUpdate="onSearchUpdate" :loading="loading" />
 
-
-        <section v-if="pageType == 'default'" class="h-100">
-            default
-        </section>
-
-
-        <section v-if="pageType == 'search'" class="h-100 is-flex is-flex-direction-column">
-            <div class="jobs-list is-flex-grow-1">
-                <div v-if="!loading">
-                    <JobItem v-for="job in data.jobs" :key="job.url" :job="job" />
-                    <!-- {{data.jobs}} -->
-                </div>
-            </div>
+        <!-- Секция вакансий -->
+        <section
+            v-if="data && data.jobs.length"
+            class="is-flex-grow-1 is-flex is-flex-direction-column"
+        >   
             <Pagination
-                class="is-flex is-justify-content-center"
-                :total="data.total"
+                :pageCount="data.totalPages"
                 :take="data.query.take"
                 :currentPage="data.query.page"
+                :loading="loading"
+                @pageChange="onPageChange"
+            />
+            <div class="jobs-list is-flex-grow-1">
+                <div v-if="!loading">
+                    <JobItem
+                        v-for="job in data.jobs"
+                        :key="job.url"
+                        :job="job"
+                    /> 
+                </div>       
+            </div>
+            <Pagination
+                :pageCount="data.totalPages"
+                :take="data.query.take"
+                :currentPage="data.query.page"
+                :loading="loading"
                 @pageChange="onPageChange"
             />
         </section>
 
+        <!-- Секция исключительных ситуаций -->
+        <section v-if="!loading">
+            <p v-if="!data" class="has-text-centered has-text-grey-light is-italic mt-5">
+                Заполните параметры поиска и нажмите
+                <strong class="has-text-grey">Найти</strong>,
+                чтобы подобрать вакансию
+            </p>
+
+            <p v-else-if="!data.jobs.length" class="has-text-centered has-text-grey-light is-italic mt-5">
+                Ничего не найдено по вашему запросу
+            </p>
+        </section>
+
+        
 
     </div>
 </template>
@@ -30,12 +53,14 @@
 <script>
 import axios from "axios";
 import Pagination from "@/components/Pagination";
-import JobItem from '@/components/JobItem';
+import JobItem from "@/components/JobItem";
+import SearchPanel from "@/components/SearchPanel";
 
 export default {
     components: {
         Pagination,
-        JobItem
+        JobItem,
+        SearchPanel,
     },
     data() {
         return {
@@ -54,9 +79,14 @@ export default {
     methods: {
         onPageChange(page) {
             if (page != this.data.query.page) {
-                const newQuery = this.updateQuery({ page });
-                this.updateJobs(newQuery);
+                const updatedQuery = this.updateQuery({ page });
+                this.updateJobs(updatedQuery);
             }
+        },
+        onSearchUpdate(query) {
+            query.page = 0;
+            const updatedQuery = this.updateQuery(query);
+            this.updateJobs(updatedQuery);
         },
         updateQuery(newQuery) {
             const updatedQuery = Object.assign({}, this.$route.query, newQuery);
@@ -66,8 +96,11 @@ export default {
         },
         updateJobs(query) {
             this.loading = true;
-            axios.get(process.env.VUE_APP_SERVER_PATH + "/job", {params: query})
-                .then(response => {
+            axios
+                .get(process.env.VUE_APP_SERVER_PATH + "/job", {
+                    params: query,
+                })
+                .then((response) => {
                     this.data = response.data;
                     this.updateQuery(response.data.query);
                     this.loading = false;
@@ -80,7 +113,7 @@ export default {
 </script>
 
 <style>
-    .h-100 {
-        height: 100%;
-    }
+.h-100 {
+    height: 100%;
+}
 </style>

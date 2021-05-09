@@ -26,7 +26,7 @@ job.get('/job/', async (req, res) => {
 
 function generateReqLink(query) {
     if (!query.region) query.region = 'Minsk';
-    if (!query.take) query.take = 20; else query.take = parseInt(query.take);
+    if (!query.take) query.take = 10; else query.take = parseInt(query.take);
     if (!query.page) query.page = 0; else query.page = parseInt(query.page);
 
     const regions = {
@@ -44,7 +44,8 @@ function generateReqLink(query) {
 function parseJobs(html) {
     const $ = cheerio.load(html);
 
-    const total = parseInt( $('[data-qa="bloko-header-1"]').text() );
+    const total = parseInt( $('[data-qa="bloko-header-1"]').text().replace(/\s/g, '') );
+    const totalPages = parseInt( $('[data-qa="pager-page"]').last().text() );
 
     const jobs = [];
     $('.vacancy-serp-item').each((i, elem) => {
@@ -62,5 +63,5 @@ function parseJobs(html) {
         jobs.push(vacancy);
     });
 
-    return { total, jobs };
+    return { total, totalPages, jobs };
 }

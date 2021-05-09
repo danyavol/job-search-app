@@ -1,11 +1,13 @@
 <template>
-    <nav class="pagination is-rounded" role="navigation" aria-label="pagination">
+    <nav class="pagination is-rounded is-flex is-justify-content-center" role="navigation" aria-label="pagination">
         <!-- все страницы помещаются разом -->
-        <ul class="pagination-list" v-if="pageCount <= 7">
-            <li v-for="pageNumber in pageCount" :key="pageNumber" @click="changePage(pageNumber-1)">
-                <a class="pagination-link" :class="{'is-current': pageNumber == currentPage+1}">{{ pageNumber }}</a>
-            </li>
-        </ul>
+        <div v-if="pageCount <= 7">
+            <ul class="pagination-list" >
+                <li v-for="pageNumber in pageCount" :key="pageNumber" @click="changePage(pageNumber-1)">
+                    <a class="pagination-link" :class="{'is-current': pageNumber == currentPage+1}">{{ pageNumber }}</a>
+                </li>
+            </ul>
+        </div>
         <!-- все страницы не помещаются -->
         <div v-if="pageCount > 7" >
             <!-- без точек в начале -->
@@ -43,26 +45,18 @@
 <script>
 export default {
     props: {
-        total: Number,
+        pageCount: Number,
         take: Number,
-        currentPage: Number
+        currentPage: Number,
+        loading: Boolean
     },
     emits: ['pageChange'],
-    data() {
-        return {
-            pageCount: 0
-        }
-    },
-    created() {
-        this.pageCount = this.getPageCount(this.total, this.take);
-    },
     methods: {
-        getPageCount(total, itemsOnPage) {
-            return Math.ceil(total/itemsOnPage);
-        },
         changePage(page) {
-            this.$emit('pageChange', page);
+            if (!this.loading) this.$emit('pageChange', page);
         }
+    },
+    watch: {
     }
 };
 </script>
