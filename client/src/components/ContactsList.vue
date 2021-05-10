@@ -1,7 +1,7 @@
 <template>
     <label class="label">Контакты</label>
 
-    <div class="field has-addons">
+    <div class="field has-addons is-hidden-mobile">
         <div class="control is-expanded">
             <input class="input" type="text" v-model="currentValue" placeholder="Контакт (Прим. 'my@email.com')" />
         </div>
@@ -10,6 +10,18 @@
         </div>
         <div class="control">
             <button class="button is-primary" @click="addContact" :disabled="!isValid">Добавить</button>
+        </div>
+    </div>
+
+    <div class="is-hidden-tablet mb-2">
+        <div class="control is-expanded">
+            <input class="input" type="text" v-model="currentValue" placeholder="Контакт (Прим. 'my@email.com')" />
+        </div>
+        <div class="control is-expanded my-2">
+            <input class="input" type="text" v-model="currentTitle" placeholder="Название (Прим. 'Email')" />
+        </div>
+        <div class="control">
+            <button class="button is-fullwidth is-primary" @click="addContact" :disabled="!isValid">Добавить</button>
         </div>
     </div>
     
@@ -92,5 +104,10 @@ export default {
 }
 .removeContact > span {
     cursor: pointer;
+}
+@media (max-width: 750px) {
+    .removeContact {
+        width: auto;
+    }
 }
 </style>

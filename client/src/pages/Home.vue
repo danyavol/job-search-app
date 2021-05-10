@@ -21,9 +21,24 @@
         </div>
     </section>
     
-    <section class="is-flex is-justify-content-space-around mt-6 mb-5">
+    <section class="mt-6 mb-5 nav-butt">
         <router-link to="/resume"><button class="button is-primary is-outlined is-large">Создать резюме</button></router-link>
         <router-link to="/job"><button class="button is-info is-outlined is-large">Найти вакансию</button></router-link>
     </section>
     
 </template>
+
+<style>
+    .nav-butt {
+        display: flex;
+        justify-content: space-around;
+    }
+
+    @media (max-height: 750px) {
+        .nav-butt {
+            align-items: center;
+            gap: 30px;
+            flex-direction: column;
+        }
+    }
+</style>

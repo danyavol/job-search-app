@@ -1,56 +1,74 @@
 <template>
-    <div class="container h-100 is-flex is-flex-direction-column">
-        <SearchPanel @searchUpdate="onSearchUpdate" :loading="loading" />
+    <div class="container h-100">
+        <div class="mx-4 h-100 is-flex is-flex-direction-column">
+            <SearchPanel @searchUpdate="onSearchUpdate" :loading="loading" />
 
-        <!-- Секция вакансий -->
-        <section
-            v-if="data && data.jobs.length"
-            class="is-flex-grow-1 is-flex is-flex-direction-column"
-        >   
-            <Pagination
-                class="mt-2"
-                :pageCount="data.totalPages"
-                :take="data.query.take"
-                :currentPage="data.query.page"
-                :loading="loading"
-                @pageChange="onPageChange"
-            />
-            <div class="jobs-list is-flex-grow-1">
-                <div v-if="!loading" class="jobs-wrapper is-flex is-flex-direction-column my-5">
-                    <JobItem
-                        v-for="job in data.jobs"
-                        :key="job.url"
-                        :job="job"
-                    /> 
+            <!-- Секция вакансий -->
+            <section
+                v-if="data && data.jobs.length"
+                class="is-flex-grow-1 is-flex is-flex-direction-column"
+            >
+                <Pagination
+                    class="mt-2"
+                    :pageCount="data.totalPages"
+                    :take="data.query.take"
+                    :currentPage="data.query.page"
+                    :loading="loading"
+                    @pageChange="onPageChange"
+                />
+                <div class="jobs-list is-flex-grow-1">
+                    <div
+                        v-if="!loading"
+                        class="jobs-wrapper is-flex is-flex-direction-column my-5"
+                    >
+                        <JobItem
+                            v-for="job in data.jobs"
+                            :key="job.url"
+                            :job="job"
+                        />
+                    </div>
+                    <div
+                        v-else
+                        class="h-100 is-flex is-justify-content-center is-align-items-center"
+                    >
+                        <div class="loader is-loading"></div>
+                    </div>
                 </div>
-                <div v-else class="h-100 is-flex is-justify-content-center is-align-items-center">
-                    <div class="loader is-loading"></div>    
-                </div>       
-            </div>
-            <Pagination
-                :pageCount="data.totalPages"
-                :take="data.query.take"
-                :currentPage="data.query.page"
-                :loading="loading"
-                @pageChange="onPageChange"
-            />
-        </section>
+                <Pagination
+                    :pageCount="data.totalPages"
+                    :take="data.query.take"
+                    :currentPage="data.query.page"
+                    :loading="loading"
+                    @pageChange="onPageChange"
+                />
+            </section>
 
-        <!-- Секция исключительных ситуаций -->
-        <section v-if="!loading">
-            <p v-if="!data" class="has-text-centered has-text-grey-light is-italic mt-5">
-                Заполните параметры поиска и нажмите
-                <strong class="has-text-grey">Найти</strong>,
-                чтобы подобрать вакансию
-            </p>
+            <!-- Секция исключительных ситуаций -->
+            <section v-if="!loading">
+                <p
+                    v-if="!data && !error"
+                    class="has-text-centered has-text-grey-light is-italic mt-5"
+                >
+                    Заполните параметры поиска и нажмите
+                    <strong class="has-text-grey">Найти</strong>, чтобы
+                    подобрать вакансию
+                </p>
 
-            <p v-else-if="!data.jobs.length" class="has-text-centered has-text-grey-light is-italic mt-5">
-                Ничего не найдено по вашему запросу
-            </p>
-        </section>
+                <p
+                    v-else-if="!data && error"
+                    class="has-text-centered has-text-danger has-text-weight-medium is-italic mt-5"
+                >
+                    {{ error }}
+                </p>
 
-        
-
+                <p
+                    v-else-if="!data.jobs.length"
+                    class="has-text-centered has-text-grey-light is-italic mt-5"
+                >
+                    Ничего не найдено по вашему запросу
+                </p>
+            </section>
+        </div>
     </div>
 </template>
 
@@ -71,6 +89,7 @@ export default {
             pageType: "default",
             loading: false,
             data: null,
+            error: null,
         };
     },
     created() {
@@ -105,12 +124,16 @@ export default {
                     params: query,
                 })
                 .then((response) => {
+                    this.error = null;
                     this.data = response.data;
                     this.updateQuery(response.data.query);
-                    this.loading = false;
-
-                    console.log(response.data);
-                });
+                })
+                .catch(() => {
+                    this.error =
+                        "Ошибка соединения с сервером, попробуйте позже!";
+                    this.data = null;
+                })
+                .finally(() => (this.loading = false));
         },
     },
 };
