@@ -34,7 +34,7 @@
         justify-content: space-around;
     }
 
-    @media (max-height: 750px) {
+    @media (max-width: 750px) {
         .nav-butt {
             align-items: center;
             gap: 30px;
