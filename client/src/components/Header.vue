@@ -4,7 +4,7 @@
             <li :class="currentRoute == 'Resume' ? 'is-active' : ''">
                 <router-link to="/resume">Создать резюме</router-link>
             </li>
-            <li class="is-size-1 mx-6 has-text-link logo" @click="goHome">
+            <li class="is-size-1 mx-6 has-text-link logo" @click="navigate('/')">
                 Job Search
             </li>
             <li :class="currentRoute == 'Job' ? 'is-active' : ''">
